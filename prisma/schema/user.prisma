@@ -1,0 +1,54 @@
+model user {
+    id            Int                      @id @default(autoincrement())
+    created_at    DateTime                 @default(now())
+    updated_at    DateTime                 @default(now())
+    national_code String                   @unique
+    mobile_number String                   @unique
+    email         String                   @unique
+    first_name    String
+    last_name     String
+    birth_date    DateTime
+    gender        gender_enum
+    active_status active_status_enum       @default(ACTIVE)
+    refersh_token users_on_refresh_tokens?
+    // skills        user_skills[]
+    // resume        user_resume?
+
+    @@schema("common")
+}
+
+model users_on_refresh_tokens {
+    id         Int      @id @default(autoincrement())
+    created_at DateTime @default(now())
+    updated_at DateTime @default(now())
+    user_id    Int      @unique
+    token      String
+    user_agent String
+    os         String
+    ip         String
+    browser    String
+    user       user     @relation(fields: [user_id], references: [id])
+
+    @@schema("common")
+}
+
+// model user_resume {
+//     id         Int      @id @default(autoincrement())
+//     created_at DateTime @default(now())
+//     updated_at DateTime @default(now())
+//     user_id    Int      @unique
+//     user       user     @relation(fields: [user_id], references: [id])
+
+//     @@schema("common")
+// }
+
+// model user_skills {
+//     id         Int      @id @default(autoincrement())
+//     created_at DateTime @default(now())
+//     updated_at DateTime @default(now())
+//     user_id    Int      @unique
+//     title      String
+// user       user     @relation(fields: [user_id], references: [id])
+
+//     @@schema("common")
+// }

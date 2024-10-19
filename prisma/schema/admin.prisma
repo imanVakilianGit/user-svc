@@ -1,0 +1,38 @@
+model admin {
+    id                       Int                       @id @default(autoincrement())
+    created_at               DateTime                  @default(now())
+    updated_at               DateTime                  @default(now())
+    national_code            String                    @unique
+    mobile_number            String                    @unique
+    email                    String                    @unique
+    first_name               String
+    last_name                String
+    birth_date               DateTime?
+    role                     admin_role_enum           @default(ADMIN)
+    active_status            active_status_enum        @default(ACTIVE)
+    admins_on_refresh_tokens admins_on_refresh_tokens?
+
+    @@schema("common")
+}
+
+model admins_on_refresh_tokens {
+    id         Int      @id @default(autoincrement())
+    created_at DateTime @default(now())
+    updated_at DateTime @default(now())
+    admin_id   Int      @unique
+    token      String
+    user_agent String
+    os         String
+    ip         String
+    browser    String
+    admin      admin    @relation(fields: [admin_id], references: [id])
+
+    @@schema("common")
+}
+
+enum admin_role_enum {
+    SUPER_ADMIN
+    ADMIN
+
+    @@schema("common")
+}

@@ -1,0 +1,15 @@
+enum active_status_enum {
+    ACTIVE
+    DE_ACTIVE
+    BLOCK
+
+    @@schema("common")
+}
+
+enum gender_enum {
+    MALE
+    FEMALE
+    OTHER
+
+    @@schema("common")
+}
