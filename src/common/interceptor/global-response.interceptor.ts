@@ -20,7 +20,7 @@ export class GlobalResponseInterceptor implements NestInterceptor {
             }),
             catchError(async (error) => {
                 if (error instanceof RpcException) {
-                    return error;
+                    return error['error'] ?? error;
                 }
                 return {
                     service: APP_NAME,
