@@ -7,7 +7,7 @@ export class CacheService {
     constructor(private readonly redisService: RedisService) {}
 
     private ttl: number = 1000 * 60 * 2;
-    private readonly keyPrefix: string = 'reservation_test:otp:admin:';
+    private readonly keyPrefix: string = 'reservation_test:otp:user:';
 
     async setOrFail(key: string, value: string): Promise<string> {
         const result: string | null = await this.redisService.redisClient.set(`${this.keyPrefix}${key}`, value, {

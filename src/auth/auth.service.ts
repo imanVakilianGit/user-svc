@@ -131,7 +131,7 @@ export class AuthService {
             const validateRefreshTokenAndGetPayload: JwtPayloadInterface | undefined = this.jwtService.verifyRefreshToken(dto.refreshToken);
             if (!validateRefreshTokenAndGetPayload) throw new UnauthorizedException(FAILED_USER_REFRESH_TOKEN_EXPIRED);
 
-            const adminProfile: user = await this._findOneUserByIdOrFail(validateRefreshTokenAndGetPayload.userId);
+            const userProfile: user = await this._findOneUserByIdOrFail(validateRefreshTokenAndGetPayload.userId);
             await this._findOneRefreshTokenOrFail(Object.assign(omitObject(dto, 'accessToken', 'ip'), validateRefreshTokenAndGetPayload));
 
             const tokens: AccessAndRefreshTokenInterface = this._generateAccessAndRefreshToken({
@@ -139,13 +139,13 @@ export class AuthService {
             });
 
             const queryBuilder: Prisma.users_on_refresh_tokensUpdateArgs<DefaultArgs> = this.authQueryBuilder.update(
-                adminProfile.id,
+                userProfile.id,
                 tokens.refreshToken,
             );
             await this.authRepository.update(queryBuilder);
 
             SUCCESS_USER_AUTHENTICATE.data = {
-                ...adminProfile,
+                ...userProfile,
                 ...tokens,
             };
             return <AuthenticateUserResponseType>SUCCESS_USER_AUTHENTICATE;
