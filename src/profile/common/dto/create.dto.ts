@@ -2,6 +2,7 @@ import { IsDate, IsEmail, IsEnum, IsNotEmpty, IsString, Length, Matches, MaxDate
 
 import { GenderEnum } from '../../../common/enum/gender.enum';
 import { PERSIAN_MOBILE_NUMBER_REGEX } from '../../../common/regex/persian-mobile-number.regex';
+import { Type } from 'class-transformer';
 
 export class CreateUserProfileDto {
     @Length(10, 10)
@@ -33,6 +34,7 @@ export class CreateUserProfileDto {
 
     @MaxDate(new Date(Date.now() - 1000 * 60 * 60 * 24 * 365 * 18))
     @IsDate()
+    @Type(() => Date)
     @IsNotEmpty()
     birthDate: Date;
 
