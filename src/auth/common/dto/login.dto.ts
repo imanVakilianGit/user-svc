@@ -1,9 +1,12 @@
-import { IsEmail, IsNotEmpty, IsString, Length, Matches } from 'class-validator';
+import { Equals, IsEmail, IsNotEmpty, IsString, Length, Matches } from 'class-validator';
 
 import { LoginTypeEnum } from '../enum/login-type.enum';
 import { PERSIAN_MOBILE_NUMBER_REGEX } from '../../../common/regex/persian-mobile-number.regex';
 
 export class LoginUserByMobileDto {
+    @Equals(LoginTypeEnum.MOBILE_NUMBER)
+    @IsString()
+    @IsNotEmpty()
     type: LoginTypeEnum.MOBILE_NUMBER = LoginTypeEnum.MOBILE_NUMBER;
 
     @Matches(PERSIAN_MOBILE_NUMBER_REGEX)
@@ -14,6 +17,9 @@ export class LoginUserByMobileDto {
 }
 
 export class LoginUserByEmailDto {
+    @Equals(LoginTypeEnum.EMAIL)
+    @IsString()
+    @IsNotEmpty()
     type: LoginTypeEnum.EMAIL = LoginTypeEnum.EMAIL;
 
     @Length(10, 50)

@@ -14,8 +14,13 @@ import { LoginUserByEmailDto, LoginUserByMobileDto } from './common/dto/login.dt
 export class AuthController {
     constructor(private readonly authService: AuthService) {}
 
-    @MessagePattern('login_user')
-    login(@Payload() dto: LoginUserByEmailDto | LoginUserByMobileDto): Promise<BaseSuccessResponseInterface> {
+    @MessagePattern('user_login_by_mobile')
+    loginByMobile(@Payload() dto: LoginUserByMobileDto): Promise<BaseSuccessResponseInterface> {
+        return this.authService.login(dto);
+    }
+
+    @MessagePattern('user_login_by_email')
+    loginByEmail(@Payload() dto: LoginUserByEmailDto): Promise<BaseSuccessResponseInterface> {
         return this.authService.login(dto);
     }
 
