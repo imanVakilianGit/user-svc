@@ -17,6 +17,26 @@ export class RedisService implements OnModuleInit {
     ) {}
 
     async onModuleInit(): Promise<void> {
+        this.redisClient.on('error', (err) => {
+            this.logger.error('redis connection failed', err);
+        });
+
+        this.redisClient.on('connect', () => {
+            this.logger.log('Connected to Redis');
+        });
+
+        this.redisClient.on('ready', async () => {
+            this.logger.log('Redis connection is ready');
+        });
+
+        this.redisClient.on('reconnecting', async () => {
+            this.logger.log('Reconnecting to Redis');
+        });
+
+        this.redisClient.on('end', () => {
+            this.logger.log('Redis connection ended');
+        });
+
         try {
             await this.redisClient.connect();
             this.logger.log('redis connected successfully');
